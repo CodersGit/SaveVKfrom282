@@ -1,0 +1,45 @@
+{
+  "name": "savevkfrom282",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Sergey Zhirov <polarwolf@cscleague.org>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CodersGit/SaveVKFrom282.git"
+  },
+  "bin": {
+    "savevkfrom282": "./dist_electron/win-unpacked/savevkfrom282.exe"
+  },
+  "bugs": {
+    "url": "https://github.com/CodersGit/SaveVKFrom282/issues"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vue/cli-plugin-eslint": "^3.6.0",
+    "@vue/cli-plugin-typescript": "^3.6.0",
+    "@vue/cli-service": "^3.6.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "@vue/eslint-config-typescript": "^3.2.0",
+    "babel-eslint": "^10.0.1",
+    "electron": "^4.1.5",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "ewc": "^0.0.1",
+    "native-ext-loader": "^2.3.0",
+    "typescript": "^3.4.5",
+    "vue": "^2.6.10",
+    "vue-cli-plugin-electron-builder": "^1.3.0",
+    "vue-template-compiler": "^2.6.10",
+    "vuex": "^3.0.1"
+  },
+  "main": "background.js"
+}
