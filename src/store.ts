@@ -1,4 +1,3 @@
-"use strict";
 import Vue from "vue";
 import Vuex from "vuex";
 import { ipcRenderer } from "electron";
@@ -12,6 +11,9 @@ export default new Vuex.Store({
   mutations: {
     changeWindowMaximized(state, payload) {
       state.windowMaximized = payload;
+    },
+    oauth(state, payload) {
+      ipcRenderer.send("oauth", payload);
     }
   },
   actions: {

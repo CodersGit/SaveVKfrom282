@@ -5,21 +5,24 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import {Payload} from 'vuex';
-
-export default Vue.extend({
-  name: "WindowButton",
+import { Payload } from "vuex";
+import { Component, Vue } from "vue-property-decorator";
+@Component({
   props: {
     text: { required: true },
-    action: { required: true },
-  },
-  methods: {
-    dispatchAction() {
-      this.$store.dispatch(this.action as Payload)
-    }
+    action: { required: true }
   }
-});
+})
+export default class WindowButton extends Vue {
+  action?: Payload;
+  text?: string;
+  dispatchAction() {
+    if (!this.action) {
+      return;
+    }
+    this.$store.dispatch(this.action);
+  }
+}
 </script>
 
 <style scoped>

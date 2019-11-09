@@ -1,9 +1,14 @@
-"use strict";
-
 // @ts-ignore
 import ewc from "native-ext-loader!../node_modules/ewc/build/Release/ewc.node";
 
-import { app, protocol, BrowserWindow, ipcMain } from "electron";
+import {
+  app,
+  protocol,
+  BrowserWindow,
+  ipcMain,
+  systemPreferences
+} from "electron";
+import OAuth2Provider from "electron-oauth-helper/dist/oauth2";
 import {
   createProtocol,
   installVueDevtools
@@ -11,8 +16,9 @@ import {
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 let mainWindow: BrowserWindow;
-
-protocol.registerStandardSchemes(["app"], { secure: true });
+// protocol.registerSchemesAsPrivileged([
+//   { scheme: "app", privileges: { secure: true } }
+// ]);
 function createWindow(
   width: number,
   height: number,
@@ -24,7 +30,10 @@ function createWindow(
     width,
     show,
     frame,
-    backgroundColor: "#00000000"
+    backgroundColor: "#00000000",
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   mainWindow.setResizable(false);
@@ -48,6 +57,15 @@ function createWindow(
       mainWindow.show();
     });
   }
+
+  // mainWindow.webContents.once("dom-ready", () => {
+  //   const color = systemPreferences.getAccentColor();
+  //   mainWindow.webContents.send("dom-color", color);
+  //   systemPreferences.on("accent-color-changed", (event, color) => {
+  //     console.log(color);
+  //     mainWindow.webContents.send("dom-color", color);
+  //   });
+  // });
 
   mainWindow.on("closed", () => {
     //@ts-ignore
@@ -111,6 +129,43 @@ ipcMain.on("EV::windowMaximize", () => {
   }
   //@ts-ignore
 });
+
+// ipcMain.on("oauth", (event, type) => {
+//   const config = {
+//     client_id: "6962973",
+//     client_secret: "dknWVRsmf0ZEmIh02MjM",
+//     redirect_uri: "https://oauth.vk.com/blank.html",
+//     authorize_url: "https://oauth.vk.com/authorize",
+//     scope:
+//       "notify friends photos audio video stories pages status notes messages wall ads offline docs groups notifications stats email market"
+//   };
+//
+//   const provider = new OAuth2Provider(config);
+//
+//   const options = Object.assign({
+//     show: false,
+//     width: 800,
+//     height: 800,
+//     webPreferences: {
+//       nodeIntegration: false,
+//       contextIsolation: true
+//     }
+//   });
+//
+//   let window = new BrowserWindow(options);
+//   window.once("ready-to-show", () => {
+//     window.show();
+//   });
+//
+//   provider
+//     .perform(window)
+//     .then(resp => {
+//       window.close();
+//       console.log("Got response (◍•ᴗ•◍):", resp);
+//     })
+//     .catch(error => console.error(error));
+// });
+
 ipcMain.on("EV::windowRestore", () => {
   console.log(`[_EV]:Restoring the app.`);
   if (mainWindow && mainWindow.isMaximized()) {

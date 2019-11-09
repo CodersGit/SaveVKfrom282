@@ -8,31 +8,31 @@
         <!--WindowButton text="&#xE921;" id="minimize" action="windowMinimize"/>
         <WindowButton v-if="!this.$store.state.windowMaximized" text="&#xE922;" id="maximize" action="windowMaximize"/>
         <WindowButton v-else text="&#xE923;" id="restore" action="windowRestore"/-->
-        <WindowButton text="&#xE8BB;" id="close" action="windowClose"/>
+        <WindowButton text="&#xE8BB;" id="close" action="windowClose" />
       </div>
     </div>
   </header>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import WindowButton from "./WindowButton.vue";
 import { ipcRenderer } from "electron";
-
-export default Vue.extend({
-  name: "TitleBar",
+import {Component, Vue} from "vue-property-decorator";
+@Component({
   components: {
     WindowButton
   },
+})
+export default class TitleBar extends Vue{
   mounted() {
-    ipcRenderer.on('EV::windowMaximized', () => {
-      this.$store.commit('changeWindowMaximized', true);
+    ipcRenderer.on("EV::windowMaximized", () => {
+      this.$store.commit("changeWindowMaximized", true);
     });
-    ipcRenderer.on('EV::windowUnmaximized', () => {
-      this.$store.commit('changeWindowMaximized', false);
+    ipcRenderer.on("EV::windowUnmaximized", () => {
+      this.$store.commit("changeWindowMaximized", false);
     });
   }
-});
+}
 </script>
 
 <style scoped>
@@ -42,7 +42,7 @@ export default Vue.extend({
   height: 30px;
   width: calc(100% - 2px); /*Compensate for body 1px border*/
   background: none;
-  color: #FFF;
+  color: #fff;
   padding: 4px;
 }
 #titlebar #drag-region {
@@ -80,13 +80,25 @@ export default Vue.extend({
   -webkit-app-region: no-drag;
 }
 
-#minimize           { grid-column: 1; }
-#maximize, #restore { grid-column: 2; }
-#close              { grid-column: 3; }
+#minimize {
+  grid-column: 1;
+}
+#maximize,
+#restore {
+  grid-column: 2;
+}
+#close {
+  grid-column: 3;
+}
 
-#minimize:hover, #maximize:hover, #restore:hover, #close:hover {
-  background: rgba(255,255,255,0.2);
+#minimize:hover,
+#maximize:hover,
+#restore:hover,
+#close:hover {
+  background: rgba(255, 255, 255, 0.2);
   opacity: 1;
 }
-#close:hover { background: #E81123; }
+#close:hover {
+  background: #e81123;
+}
 </style>
